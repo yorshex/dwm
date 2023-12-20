@@ -5,7 +5,7 @@ static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 12;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Iosevka Fixed:size=11" };
+static const char *fonts[]          = { "Iosevka Fixed:size=10", "Symbols Nerd Font:size=10" };
 static const char col_bg0[]       = "#232326";
 static const char col_bg3[]       = "#37383d";
 static const char col_bg_d[]      = "#1b1c1e";
@@ -58,19 +58,22 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-i", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-i", NULL };
 static const char *termcmd[]  = { "st", NULL };
+
+/* progs */
 static const char *lockcmd[]  = { "physlock", NULL };
 static const char *browsercmd[]  = { "chromium", NULL };
+static const char *emojicmd[]  = { "bemoji", NULL };
+static const char *passmngcmd[]  = { "dmenu_pass", NULL };
 static const char *scrshotcmd[] = { "flameshot", "gui", NULL };
+static const char *boomer_cmd[] = { "boomer", "-c", "~/.config/boomer/config", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+
+	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
-	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -103,6 +106,19 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+
+	/* progs */
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = lockcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
+	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
+	{ MODKEY,                       XK_grave,  spawn,          {.v = emojicmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = passmngcmd } },
+	{ MODKEY,                       XK_g,      spawn,          {.v = boomer_cmd } },
+
+	/* volume */
+    { MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_minus,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_BackSpace, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
 };
 
 /* button definitions */
