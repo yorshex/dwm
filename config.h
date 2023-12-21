@@ -18,9 +18,13 @@ static const char col_grey[]      = "#646568";
 static const char col_fg[]        = "#b1b4b9";
 static const char col_white[]     = "#ffffff";
 static const char col_cyan[]      = "#2b5d63";
+
+enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
+
 static const char *colors[][3]    = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_fg,    col_bg0,   col_bg3 },
+	[SchemeCol1] = { col_grey,  col_bg0,   NULL },
 	[SchemeSel]  = { col_white, col_cyan,  col_cyan },
 };
 
