@@ -73,7 +73,7 @@ static const char *termcmd[]  = { "st", NULL };
 /* progs */
 static const char *lockcmd[]  = { "physlock", NULL };
 static const char *browsercmd[]  = { "chromium", NULL };
-static const char *emojicmd[]  = { "bemoji", NULL };
+static const char *emojicmd[]  = { "bemoji", "-n", NULL };
 static const char *passmngcmd[]  = { "dmenu_pass", NULL };
 static const char *scrshotcmd[] = { "flameshot", "gui", NULL };
 static const char *boomer_cmd[] = { "boomer", "-c", "~/.config/boomer/config", NULL };
@@ -99,6 +99,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -125,7 +126,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_g,      spawn,          {.v = boomer_cmd } },
 
 	/* volume */
-    { MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
 	{ MODKEY,                       XK_minus,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
 	{ MODKEY,                       XK_BackSpace, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
 };
