@@ -13,7 +13,6 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Iosevka Fixed:size=10", "Symbols Nerd Font:size=10" };
 static const char col_bg0[]       = "#232326";
 static const char col_bg3[]       = "#37383d";
-static const char col_bg_d[]      = "#1b1c1e";
 static const char col_grey[]      = "#646568";
 static const char col_fg[]        = "#b1b4b9";
 static const char col_white[]     = "#ffffff";
@@ -22,10 +21,10 @@ static const char col_cyan[]      = "#2b5d63";
 enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
 
 static const char *colors[][3]    = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_fg,    col_bg0,   col_bg3 },
-	[SchemeCol1] = { col_grey,  col_bg0,   NULL },
-	[SchemeSel]  = { col_white, col_cyan,  col_cyan },
+	/*               fg          bg         border   */
+	[SchemeNorm] = { col_fg,     col_bg0,   col_bg3 },
+	[SchemeCol1] = { col_grey,   col_bg0,   NULL },
+	[SchemeSel]  = { col_white,  col_cyan,  col_cyan },
 };
 
 /* tagging */
@@ -36,8 +35,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,       NULL,       NULL,       0,            0,           -1 },
+	/* class         instance title       tags mask     isfloating   monitor */
+	{ NULL,          NULL,    NULL,       0,            0,           -1 },
+	{ "easyeffects", NULL,    NULL,       0,            1,           -1 },
+	{ "Pavucontrol", NULL,    NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
