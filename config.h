@@ -32,9 +32,10 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
+	 *   WM_CLASS(STRING) = instance, class
+	 *   WM_NAME(STRING) = title
 	 */
+
 	/* class         instance title       tags mask     isfloating   monitor */
 	{ NULL,          NULL,    NULL,       0,            0,           -1 },
 	{ "easyeffects", NULL,    NULL,       0,            1,           -1 },
@@ -52,16 +53,15 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "TTT",      bstack },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      combotag,       {.ui = 1 << TAG} }, \
-	{ MODKEY|Mod1Mask,              KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY,                       KEY,      view,       {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      toggleview, {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      tag,        {.ui = 1 << TAG} }, \
+	{ MODKEY|Mod1Mask,              KEY,      toggletag,  {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -71,42 +71,66 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-i", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-/* progs */
-static const char *lockcmd[]  = { "physlock", NULL };
-static const char *browsercmd[]  = { "chromium", NULL };
-static const char *emojicmd[]  = { "bemoji", "-n", NULL };
-static const char *passmngcmd[]  = { "dmenu_pass", NULL };
-static const char *scrshotcmd[] = { "flameshot", "gui", NULL };
-static const char *boomer_cmd[] = { "boomer", "-c", "~/.config/boomer/config", NULL };
+static const char *lockcmd[]  =        { "physlock", NULL };
+static const char *browsercmd[]  =     { "chromium", NULL };
+static const char *emojicmd[]  =       { "bemoji", "-n", NULL };
+static const char *passmngcmd[]  =     { "dmenu_pass", NULL };
+static const char *scrshotcmd[] =      { "flameshot", "gui", NULL };
+static const char *volumectrlcmd[] =   { "pavucontrol", NULL };
+static const char *easyeffects_cmd[] = { "boomer", "-c", "~/.config/boomer/config", NULL };
+static const char *boomer_cmd[] =      { "boomer", "-c", "~/.config/boomer/config", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
+	/* run programs */
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
+	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
+	{ MODKEY,                       XK_grave,  spawn,          {.v = emojicmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = passmngcmd } },
+	{ MODKEY,                       XK_v,      spawn,          {.v = volumectrlcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = easyeffects_cmd } },
+	{ MODKEY,                       XK_g,      spawn,          {.v = boomer_cmd } },
+
+	/* volume */
+	{ MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_minus,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_BackSpace, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
+
+	/* navigation */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+
+	/* set layout */
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+
+	/* layout settings */
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+
+	/* window manipulation */
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_q,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_u,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
+
+	/* tagging */
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -116,20 +140,10 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+
+	/* quit dwm */
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 
-	/* progs */
-	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
-	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
-	{ MODKEY,                       XK_grave,  spawn,          {.v = emojicmd } },
-	{ MODKEY,                       XK_p,      spawn,          {.v = passmngcmd } },
-	{ MODKEY,                       XK_g,      spawn,          {.v = boomer_cmd } },
-
-	/* volume */
-	{ MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
-	{ MODKEY,                       XK_minus,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
-	{ MODKEY,                       XK_BackSpace, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
 };
 
 /* button definitions */
