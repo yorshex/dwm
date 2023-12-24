@@ -77,7 +77,7 @@ static const char *emojicmd[]  =       { "bemoji", "-n", NULL };
 static const char *passmngcmd[]  =     { "dmenu_pass", NULL };
 static const char *scrshotcmd[] =      { "flameshot", "gui", NULL };
 static const char *volumectrlcmd[] =   { "pavucontrol", NULL };
-static const char *easyeffects_cmd[] = { "boomer", "-c", "~/.config/boomer/config", NULL };
+static const char *easyeffects_cmd[] = { "easyeffects", NULL };
 static const char *boomer_cmd[] =      { "boomer", "-c", "~/.config/boomer/config", NULL };
 
 static const Key keys[] = {
