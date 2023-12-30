@@ -17,15 +17,16 @@ static const char col_bg3[]       = "#37383d";
 static const char col_grey[]      = "#646568";
 static const char col_fg[]        = "#b1b4b9";
 static const char col_white[]     = "#ffffff";
-static const char col_cyan[]      = "#2b5d63";
+static const char col_cyan[]      = "#51a8b3";
+static const char col_darkcyan[]  = "#2b5d63";
 
 enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
 
 static const char *colors[][3]    = {
 	/*               fg          bg         border   */
-	[SchemeNorm] = { col_fg,     col_bg0,   col_bg3 },
-	[SchemeCol1] = { col_grey,   col_bg0,   NULL },
-	[SchemeSel]  = { col_white,  col_cyan,  col_cyan },
+	[SchemeNorm] = { col_fg,     col_bg0,       col_bg3 },
+	[SchemeCol1] = { col_grey,   col_bg0,       NULL },
+	[SchemeSel]  = { col_white,  col_darkcyan,  col_cyan },
 };
 
 /* tagging */
@@ -77,7 +78,7 @@ static const char *browsercmd[]  =     { "chromium", NULL };
 static const char *emojicmd[]  =       { "bemoji", "-n", NULL };
 static const char *passmngcmd[]  =     { "dmenu_pass", NULL };
 static const char *scrshotcmd[] =      { "flameshot", "gui", NULL };
-static const char *volumectrlcmd[] =   { "pavucontrol", NULL };
+static const char *volumectrlcmd[] =   { "st", "pulsemixer", NULL };
 static const char *easyeffects_cmd[] = { "easyeffects", NULL };
 static const char *boomer_cmd[] =      { "boomer", "-c", "~/.config/boomer/config", NULL };
 
@@ -95,7 +96,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = passmngcmd } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = volumectrlcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = easyeffects_cmd } },
-	{ MODKEY,                       XK_g,      spawn,          {.v = boomer_cmd } },
+	{ MODKEY,                       XK_b,      spawn,          {.v = boomer_cmd } },
 
 	/* volume */
 	{ MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
