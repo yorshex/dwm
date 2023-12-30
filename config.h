@@ -3,6 +3,7 @@
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 12;       /* snap pixel */
+static const unsigned int gappx     = 24;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -118,6 +119,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_bracketleft, setgaps,   {.i = -8} },
+	{ MODKEY,                       XK_bracketright, setgaps,  {.i = +8} },
+	{ MODKEY,                       XK_backslash, setgaps,     {.i =  0} },
 
 	/* window manipulation */
 	{ MODKEY,                       XK_Return, zoom,           {0} },
