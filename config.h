@@ -73,7 +73,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-i", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-static const char *lockcmd[]  =        { "physlock", NULL };
+static const char *lockcmd[] =         { "xsecurelock", NULL };
 static const char *browsercmd[]  =     { "chromium", NULL };
 static const char *emojicmd[]  =       { "bemoji", "-n", NULL };
 static const char *passmngcmd[]  =     { "dmenu_pass", NULL };
@@ -89,7 +89,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 
-	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
+    { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
 	{ MODKEY,                       XK_grave,  spawn,          {.v = emojicmd } },
