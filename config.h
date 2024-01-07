@@ -13,7 +13,6 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Iosevka Fixed:size=10", "Symbols Nerd Font:size=10" };
 static const char col_bg0[]       = "#232326";
-static const char col_bg3[]       = "#37383d";
 static const char col_grey[]      = "#646568";
 static const char col_fg[]        = "#b1b4b9";
 static const char col_white[]     = "#ffffff";
@@ -24,7 +23,7 @@ enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
 
 static const char *colors[][3]    = {
 	/*               fg          bg         border   */
-	[SchemeNorm] = { col_fg,     col_bg0,       col_bg3 },
+	[SchemeNorm] = { col_fg,     col_bg0,       col_grey },
 	[SchemeCol1] = { col_grey,   col_bg0,       NULL },
 	[SchemeSel]  = { col_white,  col_darkcyan,  col_cyan },
 };
@@ -87,7 +86,7 @@ static const Key keys[] = {
 
 	/* run programs */
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 
     { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
@@ -106,7 +105,6 @@ static const Key keys[] = {
 	/* navigation */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 
@@ -125,7 +123,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_backslash, setgaps,     {.i =  0} },
 
 	/* window manipulation */
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
