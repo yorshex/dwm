@@ -72,35 +72,12 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-i", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-static const char *lockcmd[] =         { "xsecurelock", NULL };
-static const char *browsercmd[]  =     { "chromium", NULL };
-static const char *emojicmd[]  =       { "bemoji", "-n", NULL };
-static const char *passmngcmd[]  =     { "dmenu_pass", NULL };
-static const char *scrshotcmd[] =      { "flameshot", "gui", NULL };
-static const char *volumectrlcmd[] =   { "st", "pulsemixer", NULL };
-static const char *easyeffects_cmd[] = { "easyeffects", NULL };
-static const char *boomer_cmd[] =      { "boomer", "-c", "~/.config/boomer/config", NULL };
-
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
 	/* run programs */
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-
-    { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
-	{ 0,                            XK_Print,  spawn,          {.v = scrshotcmd } },
-	{ MODKEY,                       XK_grave,  spawn,          {.v = emojicmd } },
-	{ MODKEY,                       XK_p,      spawn,          {.v = passmngcmd } },
-	{ MODKEY,                       XK_v,      spawn,          {.v = volumectrlcmd } },
-	{ MODKEY,                       XK_e,      spawn,          {.v = easyeffects_cmd } },
-	{ MODKEY,                       XK_b,      spawn,          {.v = boomer_cmd } },
-
-	/* volume */
-	{ MODKEY,                       XK_equal,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
-	{ MODKEY,                       XK_minus,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
-	{ MODKEY,                       XK_BackSpace, spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
 
 	/* navigation */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -146,7 +123,6 @@ static const Key keys[] = {
 
 	/* quit dwm */
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-
 };
 
 /* button definitions */
