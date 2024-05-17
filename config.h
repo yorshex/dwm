@@ -25,9 +25,12 @@ static const char col_cyan[]        = "#56b6c2";
 static const char col_grey[]        = "#5c6370";
 static const char col_white[]       = "#ffffff";
 
+enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
+
 static const char *colors[][3]      = {
 	/*               fg         bg             border   */
 	[SchemeNorm] = { col_fg,    col_bg,        col_grey },
+	[SchemeCol1] = { col_grey,  col_bg,        col_grey },
 	[SchemeSel]  = { col_white, col_dark_cyan, col_cyan },
 };
 

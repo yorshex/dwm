@@ -1,20 +1,35 @@
---- dwm.c
-+++ dwm.c
-@@ -791,7 +884,7 @@ dirtomon(int dir)
+--- dwm.c	2023-06-02 04:37:36.365382319 +0530
++++ dwm.c	2023-06-02 04:56:15.061391696 +0530
+@@ -239,6 +247,7 @@
+ static void seturgent(Client *c, int urg);
+ static void showhide(Client *c);
+ static void sigchld(int unused);
++static void sigdwmblocks(const Arg *arg);
+ static void spawn(const Arg *arg);
+ static Monitor *systraytomon(Monitor *m);
+ static void tag(const Arg *arg);
+@@ -809,7 +827,8 @@
  void
  drawbar(Monitor *m)
  {
--	int x, w, tw = 0;
-+	int x, w, tw = 0, stw = 0;
+-	int x, w, tw = 0, stw = 0;
++	int x, w;
++        int wbar = m->ww;
  	int boxs = drw->fonts->h / 9;
  	int boxw = drw->fonts->h / 6 + 2;
  	unsigned int i, occ = 0, urg = 0;
-@@ -831,7 +928,7 @@ drawbar(Monitor *m)
+@@ -872,7 +914,13 @@
  	drw_setscheme(drw, scheme[SchemeNorm]);
  	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
  
--	if ((w = m->ww - tw - x) > bh) {
-+	if ((w = m->ww - tw - stw - x) > bh) {
+-	if ((w = m->ww - tw - stw - x) > bh) {
++        if (m == selmon) {
++                blw = w, ble = x;
++                w = wbar - wstext - x;
++        } else
++                w = wbar - x;
++
++	if (w > bh) {
  		if (m->sel) {
  			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
  			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
