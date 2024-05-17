@@ -2,22 +2,35 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 12;       /* snap pixel */
-static const unsigned int gappx     = 24;       /* snap pixel */
+static const unsigned int snap      = 8;       /* snap pixel */
+static const unsigned int gappx     = 32;       /* gapps between windows */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const unsigned int systrayspacing = 5;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Iosevka Fixed:size=10", "Symbols Nerd Font:size=10" };
+#define MY_THEME ONEDARK_WARMER
+
+#if MY_THEME==ONEDARK
+static const char col_bg0[]       = "#282c34";
+static const char col_grey[]      = "#5c6370";
+static const char col_fg[]        = "#abb2bf";
+static const char col_white[]     = "#ffffff";
+static const char col_cyan[]      = "#56b6c2";
+static const char col_darkcyan[]  = "#2b6f77";
+#elif MY_THEME==ONEDARK_WARMER
 static const char col_bg0[]       = "#232326";
 static const char col_grey[]      = "#646568";
 static const char col_fg[]        = "#b1b4b9";
 static const char col_white[]     = "#ffffff";
 static const char col_cyan[]      = "#51a8b3";
 static const char col_darkcyan[]  = "#2b5d63";
+#else
+#error "Theme doesn't exist."
+#endif
 
 enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
 
