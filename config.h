@@ -12,12 +12,13 @@ static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Iosevka:size=10", "Symbols Nerd Font:size=10" };
-static const char col_fg[]          = "#abb2bf";
-static const char col_bg[]          = "#282c34";
-static const char col_dark_cyan[]        = "#2b6f77";
-static const char col_cyan[]        = "#56b6c2";
-static const char col_grey[]        = "#5c6370";
-static const char col_white[]       = "#ffffff";
+
+static const char col_fg[]        = "#d8dee9";
+static const char col_bg[]        = "#2e3440";
+static const char col_dark_cyan[] = "#5e81ac";
+static const char col_cyan[]      = "#88c0d0";
+static const char col_grey[]      = "#4c566a";
+static const char col_white[]     = "#eceff4";
 
 enum { SchemeNorm, SchemeCol1, SchemeSel }; /* color schemes */
 
