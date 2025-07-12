@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 32;       /* gaps between windows */
+static const unsigned int gappx     = 8;        /* gaps between windows */
 static const unsigned int snap      = 12;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -38,9 +38,15 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 
-	/* class, instance, title, tags mask, isfloating, monitor */
-	{ "easyeffects",  NULL,       NULL,       0,            1,           -1 },
-	{ "Pavucontrol",  NULL,       NULL,       0,            1,           -1 },
+	/* class              instance    title                 tags mask   isfloating   monitor */
+	{ "TelegramDesktop" , NULL      , "Media viewer"      , 0         , 1          , -1       },
+	{ "TelegramDesktop" , NULL      , "Просмотр медиа"    , 0         , 1          , -1       },
+	{ "mpv"             , NULL      , NULL                , 0         , 1          , -1       },
+	{ "Nsxiv"           , NULL      , NULL                , 0         , 1          , -1       },
+	{ "gajim"           , NULL      , "Password Required" , 0         , 1          , -1       },
+	{ "easyeffects"     , NULL      , NULL                , 0         , 1          , -1       },
+	{ "pavucontrol"     , NULL      , NULL                , 0         , 1          , -1       },
+	{ "st-256color"     , "ncmpcpp" , NULL                , 0         , 1          , -1       },
 };
 
 /* layout(s) */
@@ -66,6 +72,7 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define CMD(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -74,6 +81,22 @@ static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_w,      spawn,          CMD("firefox") },
+	{ 0,                            XK_Print,  spawn,          CMD("flameshot", "gui") },
+	{ MODKEY,                       XK_grave,  spawn,          CMD("bemoji", "-n") },
+	{ MODKEY,                       XK_p,      spawn,          CMD("dmenu_pass") },
+	{ MODKEY,                       XK_v,      spawn,          CMD("pavucontrol") },
+	{ MODKEY,                       XK_e,      spawn,          CMD("easyeffects") },
+	{ MODKEY,                       XK_b,      spawn,          CMD("boomer", "-c", "~/.config/boomer/config") },
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          CMD("slock") },
+	{ MODKEY,                       XK_n,      spawn,          CMD("st", "-n", "ncmpcpp", "ncmpcpp") },
+	{ MODKEY,                       XK_minus,  spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_equal,  spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_BackSpace, spawn,       SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -SIGRTMIN+1 dwmblocks") },
+	{ MODKEY,                       XK_apostrophe, spawn,      SHCMD("mpc toggle && pkill -SIGRTMIN+2 dwmblocks") },
+	{ MODKEY,                       XK_bracketleft, spawn,     SHCMD("mpc prev && pkill -SIGRTMIN+2 dwmblocks") },
+	{ MODKEY,                       XK_bracketright, spawn,    SHCMD("mpc next && pkill -SIGRTMIN+2 dwmblocks") },
+
 	{ MODKEY,                       XK_o,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
